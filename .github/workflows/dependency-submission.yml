@@ -13,7 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      #- uses: github/codeql-action/autobuild@v2
+      #dotnet restore /home/runner/work/NugetCentral/NugetCentral/CentralPackageManagementExample.sln
+      #dotnet build --no-incremental /home/runner/work/NugetCentral/NugetCentral/CentralPackageManagementExample.sln
+      - run: |
+          dotnet restore CentralPackageManagementExample.sln
+          dotnet build --no-incremental CentralPackageManagementExample.sln
       - name: Component detection 
         uses: jhutchings1/component-detection-action@v0.0.1
       - name: Run Trivy in GitHub SBOM mode and submit results to Dependency Snapshots
