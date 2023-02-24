@@ -1,0 +1,26 @@
+name: Component Detection
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions: 
+  id-token: write
+  contents: write
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      #- uses: github/codeql-action/autobuild@v2
+      - name: Component detection 
+        uses: jhutchings1/component-detection-action@v0.0.1
+      - name: Run Trivy in GitHub SBOM mode and submit results to Dependency Snapshots
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          format: 'github'
+          output: 'dependency-results.sbom.json'
+          #image-ref: '.'
+          github-pat: '${{ secrets.GITHUB_TOKEN }}' 
